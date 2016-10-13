@@ -12,6 +12,12 @@ import {deepOrange500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
+import {List, ListItem} from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Checkbox from 'material-ui/Checkbox';
+import TextField from 'material-ui/TextField';
+import {Grid, Row, Col} from 'react-flexbox-grid';
+
 // End import themes
 
 const styles = {
@@ -35,6 +41,7 @@ class App extends Component {
     this.state = {
       hideCompleted: false,
       open: false,
+      textInput: '' ,
     };
   }
 
@@ -44,19 +51,23 @@ class App extends Component {
     ));
   }
 
+  handleTextInput(event) {
+    this.setState({
+      textInput: event.target.value,
+    });
+  }
+
   handleSubmit(event) {
     event.preventDefault();
 
     // Find the text field via the React ref
-    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
-
     Tasks.insert({
-      text,
+      text: this.state.textInput,
       createdAt: new Date(), // current time
     });
 
     // Clear form
-    ReactDOM.findDOMNode(this.refs.textInput).value = '';
+    this.state.textInput = '';
   }
 
   toggleHideCompleted() {
@@ -66,10 +77,9 @@ class App extends Component {
   }
 
   handleTouchTap(){
-    console.log(this.state);
-    // this.setState({
-    //   open: true,
-    // });
+    this.setState({
+      open: true,
+    });
   }
 
   render() {
@@ -83,34 +93,30 @@ class App extends Component {
 
 	  return (
       <MuiThemeProvider muiTheme={muiTheme}>
-      <div className="container">
-        <header>
-          <h1>Todo List ({this.props.incompleteCount})</h1>
-
-          <label className="hide-completed">
-            <input
-              type="checkbox"
+        <div className="container">
+          <List>
+            <Subheader>
+              Todo List ({this.props.incompleteCount})
+            </Subheader>
+            <Checkbox
+              label="Hide Completed Tasks"
               readOnly
               checked={this.state.hideCompleted}
-              onClick={this.toggleHideCompleted.bind(this)}
+              onCheck={this.toggleHideCompleted.bind(this)}
             />
-            Hide Completed Tasks
-          </label>
-
-
-          <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
-            <input
-              type="text"
-              ref="textInput"
-              placeholder="Type to add new tasks"
-            />
-          </form>
-        </header>
-
-        <ul>
-          {this.renderTasks()}
-        </ul>
-      </div>
+            <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
+              <TextField
+                type="text"
+                value={this.state.textInput}
+                onChange={this.handleTextInput.bind(this)}
+                name="textInput"
+                hintText="Task name"
+                floatingLabelText="Type to add new tasks"
+              />
+            </form>
+            {this.renderTasks()}
+          </List>
+        </div>
       </MuiThemeProvider>
 	  );
 	}
