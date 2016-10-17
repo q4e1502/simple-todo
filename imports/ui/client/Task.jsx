@@ -4,7 +4,7 @@ import {List, ListItem} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
-import {Grid, Row, Col} from 'react-flexbox-grid/lib/index';
+import { Button, Card, Row, Col } from 'react-materialize';
 
 // Task component - represents a single todo item
 
@@ -58,9 +58,8 @@ export default class Task extends Component {
     };
     return (
       <Row>
-        <Col className="md-3">
+        <Col m={6} >
           <ListItem
-            className="col s8"
             leftCheckbox={
               <Checkbox
                 id ={this.props.task._id}

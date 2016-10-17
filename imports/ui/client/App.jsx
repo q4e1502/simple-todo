@@ -16,7 +16,6 @@ import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Checkbox from 'material-ui/Checkbox';
 import TextField from 'material-ui/TextField';
-import {Grid, Row, Col} from 'react-flexbox-grid';
 
 // End import themes
 
